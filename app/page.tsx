@@ -5,9 +5,15 @@ import {
   categoryMeta,
   heroStats,
   howItWorks,
-  popularSearches,
   seedVendors
 } from "@/lib/data";
+
+const heroSuggestions = [
+  "Find a laundry service",
+  "Looking for tiffin?",
+  "Need a cleaner?",
+  "Home repair near me"
+];
 
 const featuredVendors = seedVendors.slice(0, 6).map((vendor, index) => ({
   ...vendor,
@@ -18,14 +24,17 @@ const featuredVendors = seedVendors.slice(0, 6).map((vendor, index) => ({
 export default function HomePage() {
   return (
     <>
-      <section className="hero">
-        <div className="card hero-copy">
-          <span className="eyebrow">Bengaluru local services marketplace</span>
-          <h1>Find trusted local help, without the hassle.</h1>
-          <p>
-            Compare nearby vendors for laundry, tiffin, cleaning, and home repairs. Built
-            for bachelors moving into a new city and for small vendors who want direct
-            enquiries.
+      <section className="hero hero-home">
+        <div className="hero-copy">
+          <span className="eyebrow eyebrow-dark">Built for bachelor life</span>
+          <h1>
+            Life gets
+            <span className="accent-line">easier</span>
+            when you&apos;ve got the right help.
+          </h1>
+          <p className="hero-lead">
+            From laundry and tiffin to cleaning and quick home repairs — find reliable local
+            help without the usual hassle.
           </p>
           <form className="hero-search" action="/services">
             <label className="sr-only" htmlFor="hero-search">
@@ -33,34 +42,36 @@ export default function HomePage() {
             </label>
             <input
               id="hero-search"
-              className="field hero-field"
+              className="field field-dark hero-field"
               name="q"
               type="search"
-              placeholder="Search laundry, tiffin, electrician..."
+              placeholder="Search services, vendors, or categories..."
               defaultValue=""
             />
-            <button className="button primary" type="submit">
+            <button className="button primary button-yellow" type="submit">
               Search services
             </button>
           </form>
-          <div className="search-chips" aria-label="Popular searches">
-            {popularSearches.map((item) => (
-              <Link className="chip" href={`/services?q=${encodeURIComponent(item)}`} key={item}>
+          <div className="search-chips" aria-label="Search suggestions">
+            {heroSuggestions.map((item) => (
+              <Link
+                className="chip chip-dark"
+                href={`/services?q=${encodeURIComponent(item)}`}
+                key={item}
+              >
                 {item}
               </Link>
             ))}
           </div>
-          <div className="hero-actions">
-            <Link className="button primary" href="/services">
-              Browse marketplace
-            </Link>
-            <a className="button secondary" href="#vendor-cta">
-              List your service
-            </a>
+          <div className="trust-row" aria-label="Trust highlights">
+            <span className="trust-pill">Verified vendors</span>
+            <span className="trust-pill">Quick responses</span>
+            <span className="trust-pill">Fair pricing</span>
+            <span className="trust-pill">Local support</span>
           </div>
           <div className="hero-metrics">
             {heroStats.map((item) => (
-              <div className="metric" key={item.label}>
+              <div className="metric metric-dark" key={item.label}>
                 <strong>{item.value}</strong>
                 <span>{item.label}</span>
               </div>
@@ -69,82 +80,118 @@ export default function HomePage() {
         </div>
 
         <aside className="hero-aside">
-          <div className="hero-gallery">
-            <div className="hero-gallery-main">
-              <img
-                src="/images/cleaning.svg"
-                alt="Cleaning service illustration"
-                className="hero-gallery-image"
-              />
+          <div className="hero-visual">
+            <div className="hero-glow hero-glow-one" aria-hidden="true" />
+            <div className="hero-glow hero-glow-two" aria-hidden="true" />
+            <div className="hero-lifestyle">
+              <div className="hero-lifestyle-main">
+                <img
+                  src="/images/laundry.svg"
+                  alt="Laundry service illustration"
+                  className="hero-lifestyle-image hero-lifestyle-image-large"
+                />
+              </div>
+              <div className="hero-lifestyle-stack">
+                <img
+                  src="/images/tiffin.svg"
+                  alt="Tiffin service illustration"
+                  className="hero-lifestyle-image"
+                />
+                <img
+                  src="/images/electrician.svg"
+                  alt="Electrician service illustration"
+                  className="hero-lifestyle-image"
+                />
+              </div>
             </div>
-            <div className="hero-gallery-stack">
-              <img
-                src="/images/tiffin.svg"
-                alt="Tiffin service illustration"
-                className="hero-gallery-image"
-              />
-              <img
-                src="/images/laundry.svg"
-                alt="Laundry service illustration"
-                className="hero-gallery-image"
-              />
+            <div className="hero-floatcard">
+              <div>
+                <span className="mini">Today at a glance</span>
+                <strong>{seedVendors.length} vendors listed</strong>
+              </div>
+              <div>
+                <span className="mini">Average rating</span>
+                <strong>4.7/5</strong>
+              </div>
             </div>
           </div>
-          <div className="panel hero-note">
-            <h3>Popular near you</h3>
-            <p>
-              Shortlist common residential services in Koramangala, HSR Layout, Indiranagar,
-              Whitefield, and Bellandur.
-            </p>
-            <div className="hero-category-strip">
-              {categories.map((category) => {
-                const meta = categoryMeta[category];
+          <div className="hero-mini-grid">
+            {categories.map((category) => {
+              const meta = categoryMeta[category];
 
-                return (
-                  <Link className="hero-category-pill" href="/services" key={category}>
-                    <span aria-hidden="true">{meta.icon}</span>
-                    <span>
-                      <strong>{category}</strong>
-                      <small>{meta.descriptor}</small>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+              return (
+                <Link className="mini-category-card" href={`/services?category=${category}`} key={category}>
+                  <span className="mini-category-icon" aria-hidden="true">
+                    {meta.icon}
+                  </span>
+                  <span>
+                    <strong>{category}</strong>
+                    <small>{meta.descriptor}</small>
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </aside>
       </section>
 
-      <section className="section">
+      <section className="section section-dark">
         <div className="section-header">
           <div>
-            <h2 className="section-title">Popular near you.</h2>
+            <h2 className="section-title">Popular services near you</h2>
             <p className="section-subtitle">
-              Real vendor cards from the marketplace data, shown with category imagery.
+              Real vendor cards from the marketplace, grouped by the services bachelors ask for
+              most often.
             </p>
           </div>
+          <Link className="section-link" href="/services">
+            View all services
+          </Link>
         </div>
         <div className="featured-grid">
           {featuredVendors.map((vendor) => (
-            <VendorCard key={vendor.slug} vendor={vendor} ctaLabel="View in services" />
+            <VendorCard key={vendor.slug} vendor={vendor} ctaLabel="Enquire now" />
           ))}
         </div>
       </section>
 
-      <section className="section" id="how-it-works">
+      <section className="section section-dark" aria-label="Browse by category">
         <div className="section-header">
           <div>
-            <h2 className="section-title">How it works.</h2>
+            <h2 className="section-title">Browse by category</h2>
             <p className="section-subtitle">
-              The flow stays short so the app reads like a real marketplace instead of a
-              product demo.
+              A faster way to jump into the right service filter and narrow down local options.
             </p>
           </div>
         </div>
-        <div className="grid features">
+        <div className="category-grid category-grid-home">
+          {categories.map((item) => (
+            <Link className="category-tile category-tile-home" href={`/services?category=${item}`} key={item}>
+              <span className="category-icon" aria-hidden="true">
+                {categoryMeta[item].icon}
+              </span>
+              <span>
+                <strong>{item}</strong>
+                <small>{categoryMeta[item].descriptor}</small>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="section section-dark" id="how-it-works">
+        <div className="section-header section-header-center">
+          <div>
+            <h2 className="section-title">How it works</h2>
+            <p className="section-subtitle">
+              Three simple steps from search to enquiry to getting the work done.
+            </p>
+          </div>
+        </div>
+        <div className="steps-grid">
           {howItWorks.map((step, index) => (
-            <div className="feature-card" key={step.title}>
-              <span className="badge">0{index + 1}</span>
+            <div className="step-card" key={step.title}>
+              <span className="step-number">0{index + 1}</span>
               <h3>{step.title}</h3>
               <p>{step.description}</p>
             </div>
@@ -152,29 +199,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" id="vendor-cta">
-        <div className="section-header">
-          <div>
-            <h2 className="section-title">For vendors too.</h2>
-            <p className="section-subtitle">
-              Small businesses get a clean listing surface and direct enquiries from people
-              already looking for the service.
-            </p>
-          </div>
-          <Link className="button secondary" href="/services">
-            See listings
-          </Link>
-        </div>
-        <div className="callout">
-          <div>
-            <h3>List a local service, get found faster.</h3>
+      <section className="section section-dark" id="about-us">
+        <div className="about-cta">
+          <div className="about-copy">
+            <span className="eyebrow eyebrow-dark">About us</span>
+            <h2>Life gets easier with the right help.</h2>
             <p>
-              The design is intentionally simple: one marketplace, one enquiry flow, one
-              reliable data layer.
+              Bachelor Buddy is built to help bachelors find reliable local help without
+              hunting through cluttered listings. It stays focused on trusted vendors,
+              transparent pricing, and a quick enquiry flow.
             </p>
           </div>
-          <Link className="button primary" href="/services">
-            Open services
+          <div className="about-art" aria-hidden="true">
+            <img src="/images/laundry.svg" alt="" />
+            <img src="/images/tiffin.svg" alt="" />
+          </div>
+          <Link className="button primary button-yellow about-button" href="/services#enquiry-form">
+            Enquire Now
           </Link>
         </div>
       </section>

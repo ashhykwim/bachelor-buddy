@@ -54,7 +54,10 @@ export function VendorCard({ vendor, ctaLabel = "Enquire now" }: VendorCardProps
           ))}
         </div>
 
-        <Link className="button primary listing-cta" href="/services">
+        <Link
+          className="button primary listing-cta"
+          href={`/services?category=${encodeURIComponent(vendor.category)}#enquiry-form`}
+        >
           {ctaLabel}
         </Link>
       </div>

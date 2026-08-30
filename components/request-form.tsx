@@ -12,6 +12,10 @@ type FormState = {
   message: string;
 };
 
+type RequestFormProps = {
+  defaultCategory?: string;
+};
+
 const emptyForm: FormState = {
   name: "",
   phone: "",
@@ -20,8 +24,13 @@ const emptyForm: FormState = {
   message: ""
 };
 
-export function RequestForm() {
-  const [form, setForm] = useState<FormState>(emptyForm);
+export function RequestForm({ defaultCategory }: RequestFormProps) {
+  const [form, setForm] = useState<FormState>({
+    ...emptyForm,
+    category: defaultCategory && categories.includes(defaultCategory as (typeof categories)[number])
+      ? defaultCategory
+      : emptyForm.category
+  });
   const [message, setMessage] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [submitLocked, setSubmitLocked] = useState(false);
@@ -65,7 +74,7 @@ export function RequestForm() {
   }
 
   return (
-    <form className="stack" onSubmit={handleSubmit} noValidate>
+    <form className="stack" id="enquiry-form" onSubmit={handleSubmit} noValidate>
       <div className="request-grid">
         <label className="field-group">
           <span className="field-label">Your name</span>
