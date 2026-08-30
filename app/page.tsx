@@ -86,19 +86,19 @@ export default function HomePage() {
             <div className="hero-lifestyle">
               <div className="hero-lifestyle-main">
                 <img
-                  src="/images/laundry.svg"
+                  src="/images/laundry.png"
                   alt="Laundry service illustration"
                   className="hero-lifestyle-image hero-lifestyle-image-large"
                 />
               </div>
               <div className="hero-lifestyle-stack">
                 <img
-                  src="/images/tiffin.svg"
+                  src="/images/tiffin.png"
                   alt="Tiffin service illustration"
                   className="hero-lifestyle-image"
                 />
                 <img
-                  src="/images/electrician.svg"
+                  src="/images/electrician.png"
                   alt="Electrician service illustration"
                   className="hero-lifestyle-image"
                 />
@@ -212,16 +212,16 @@ export default function HomePage() {
           </div>
           <div className="about-art" aria-hidden="true">
             <div className="about-art-card">
-              <img src="/images/cleaning.svg" alt="" />
+              <img src="/images/cleaning.png" alt="" />
               <span>Clean spaces</span>
             </div>
             <div className="about-art-stack">
               <div className="about-art-card">
-                <img src="/images/tiffin.svg" alt="" />
+                <img src="/images/tiffin.png" alt="" />
                 <span>Daily meals</span>
               </div>
               <div className="about-art-card">
-                <img src="/images/plumber.svg" alt="" />
+                <img src="/images/plumber.png" alt="" />
                 <span>Quick fixes</span>
               </div>
             </div>
