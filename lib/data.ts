@@ -46,37 +46,43 @@ export const heroStats = [
 
 export const categoryMeta: Record<
   Category,
-  { descriptor: string; icon: string; image: string }
+  { descriptor: string; icon: string; image: string; focal: string }
 > = {
   Laundry: {
     descriptor: "Pickup, wash, fold",
     icon: "🧺",
-    image: "/images/laundry.svg"
+    image: "/images/service-collage.png",
+    focal: "left top"
   },
   Tiffin: {
     descriptor: "Daily homestyle meals",
     icon: "🍱",
-    image: "/images/tiffin.svg"
+    image: "/images/service-collage.png",
+    focal: "center top"
   },
   Househelp: {
     descriptor: "Household support",
     icon: "🧹",
-    image: "/images/househelp.svg"
+    image: "/images/service-collage.png",
+    focal: "left bottom"
   },
   Electrician: {
     descriptor: "Electrical repairs",
     icon: "💡",
-    image: "/images/electrician.svg"
+    image: "/images/electrician.png",
+    focal: "center center"
   },
   Plumber: {
     descriptor: "Leak and pipe fixes",
     icon: "🔧",
-    image: "/images/plumber.svg"
+    image: "/images/plumber.png",
+    focal: "center center"
   },
   Cleaning: {
     descriptor: "Deep cleaning help",
     icon: "✨",
-    image: "/images/cleaning.svg"
+    image: "/images/cleaning.png",
+    focal: "center center"
   }
 };
 
