@@ -856,18 +856,34 @@ main {
 }
 
 .about-art {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 0.78fr;
   gap: 12px;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+}
+
+.about-art-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.about-art-card {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
 }
 
 .about-art img {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 180px;
   object-fit: cover;
   border-radius: 22px;
   border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .about-button {
@@ -965,6 +981,10 @@ main {
   .hero-lifestyle-image-large {
     min-height: 320px;
   }
+
+  .about-art {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1016,5 +1036,9 @@ main {
 
   .hero-floatcard {
     grid-template-columns: 1fr;
+  }
+
+  .about-art img {
+    height: 150px;
   }
 }

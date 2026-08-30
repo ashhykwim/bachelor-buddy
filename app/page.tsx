@@ -211,8 +211,20 @@ export default function HomePage() {
             </p>
           </div>
           <div className="about-art" aria-hidden="true">
-            <img src="/images/laundry.svg" alt="" />
-            <img src="/images/tiffin.svg" alt="" />
+            <div className="about-art-card">
+              <img src="/images/cleaning.svg" alt="" />
+              <span>Clean spaces</span>
+            </div>
+            <div className="about-art-stack">
+              <div className="about-art-card">
+                <img src="/images/tiffin.svg" alt="" />
+                <span>Daily meals</span>
+              </div>
+              <div className="about-art-card">
+                <img src="/images/plumber.svg" alt="" />
+                <span>Quick fixes</span>
+              </div>
+            </div>
           </div>
           <Link className="button primary button-yellow about-button" href="/services#enquiry-form">
             Enquire Now
