@@ -1,26 +1,36 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { Vendor } from "@/lib/data";
-import { categoryMeta } from "@/lib/data";
+import { categoryImageSize, categoryMeta } from "@/lib/data";
 
 type VendorCardProps = {
   vendor: Vendor;
   ctaLabel?: string;
+  /** Position in its grid, used only to stagger the scroll-reveal animation. */
+  index?: number;
 };
 
-export function VendorCard({ vendor, ctaLabel = "Enquire now" }: VendorCardProps) {
+export function VendorCard({ vendor, ctaLabel = "Enquire now", index = 0 }: VendorCardProps) {
   const meta = categoryMeta[vendor.category];
 
   return (
-    <article className="listing-card">
+    <article
+      className="listing-card"
+      data-reveal
+      style={{ "--reveal-delay": `${Math.min(index, 5) * 70}ms` } as CSSProperties}
+    >
       <div className="listing-media">
         <img
           src={meta.image}
-          alt={`${vendor.category} service illustration for ${vendor.name}`}
+          alt={meta.imageAlt}
           className="listing-image"
+          width={categoryImageSize.width}
+          height={categoryImageSize.height}
           loading="lazy"
+          decoding="async"
         />
         <div className="listing-media-chip">
-          <span className="listing-emoji" aria-hidden="true">
+          <span  aria-hidden="true">
             {meta.icon}
           </span>
           <span>{vendor.category}</span>
@@ -29,7 +39,7 @@ export function VendorCard({ vendor, ctaLabel = "Enquire now" }: VendorCardProps
 
       <div className="listing-content">
         <div className="listing-top">
-          <div>
+          <div className="listing-identity">
             <strong>{vendor.name}</strong>
             <div className="mini vendor-subtitle">
               {vendor.category} · {vendor.area}
@@ -59,6 +69,7 @@ export function VendorCard({ vendor, ctaLabel = "Enquire now" }: VendorCardProps
           href={`/services?category=${encodeURIComponent(vendor.category)}#enquiry-form`}
         >
           {ctaLabel}
+          <span className="sr-only"> about {vendor.name}</span>
         </Link>
       </div>
     </article>

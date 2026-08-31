@@ -1,7 +1,9 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { VendorCard } from "@/components/vendor-card";
 import {
   categories,
+  categoryImageSize,
   categoryMeta,
   heroStats,
   howItWorks,
@@ -15,44 +17,60 @@ const heroSuggestions = [
   "Home repair near me"
 ];
 
+/**
+ * Each hero image plays a distinct role: one wide anchor shot plus two
+ * supporting tiles, all from different categories.
+ */
+const heroImages = [
+  { category: "Laundry", className: "hero-tile hero-tile-wide", priority: true },
+  { category: "Tiffin", className: "hero-tile", priority: false },
+  { category: "Electrician", className: "hero-tile", priority: false }
+] as const;
+
 const featuredVendors = seedVendors.slice(0, 6).map((vendor, index) => ({
   ...vendor,
   id: index + 1,
   slug: `${vendor.name}-${vendor.category}-${vendor.area}`.toLowerCase()
 }));
 
+function delay(ms: number) {
+  return { "--reveal-delay": `${ms}ms` } as CSSProperties;
+}
+
 export default function HomePage() {
   return (
     <>
       <section className="hero hero-home">
         <div className="hero-copy">
-          <span className="eyebrow eyebrow-dark">Built for bachelor life</span>
-          <h1>
+          <span className="eyebrow hero-enter" style={delay(0)}>
+            Built for bachelor life
+          </span>
+          <h1 className="hero-enter" style={delay(60)}>
             Life gets
             <span className="accent-line">easier</span>
             when you&apos;ve got the right help.
           </h1>
-          <p className="hero-lead">
+          <p className="hero-lead hero-enter" style={delay(120)}>
             From laundry and tiffin to cleaning and quick home repairs — find reliable local
             help without the usual hassle.
           </p>
-          <form className="hero-search" action="/services">
+          <form className="hero-search hero-enter" action="/services" style={delay(180)}>
             <label className="sr-only" htmlFor="hero-search">
               Search services
             </label>
             <input
               id="hero-search"
-              className="field field-dark hero-field"
+              className="field field-dark"
               name="q"
               type="search"
               placeholder="Search services, vendors, or categories..."
               defaultValue=""
             />
-            <button className="button primary button-yellow" type="submit">
+            <button className="button primary" type="submit">
               Search services
             </button>
           </form>
-          <div className="search-chips" aria-label="Search suggestions">
+          <div className="search-chips hero-enter" aria-label="Search suggestions" style={delay(240)}>
             {heroSuggestions.map((item) => (
               <Link
                 className="chip chip-dark"
@@ -63,15 +81,15 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-          <div className="trust-row" aria-label="Trust highlights">
+          <div className="trust-row hero-enter" aria-label="Trust highlights" style={delay(300)}>
             <span className="trust-pill">Verified vendors</span>
             <span className="trust-pill">Quick responses</span>
             <span className="trust-pill">Fair pricing</span>
             <span className="trust-pill">Local support</span>
           </div>
-          <div className="hero-metrics">
+          <div className="hero-metrics hero-enter" style={delay(360)}>
             {heroStats.map((item) => (
-              <div className="metric metric-dark" key={item.label}>
+              <div className="metric" key={item.label}>
                 <strong>{item.value}</strong>
                 <span>{item.label}</span>
               </div>
@@ -80,29 +98,33 @@ export default function HomePage() {
         </div>
 
         <aside className="hero-aside">
-          <div className="hero-visual">
+          <div className="hero-visual hero-enter" style={delay(220)}>
             <div className="hero-glow hero-glow-one" aria-hidden="true" />
             <div className="hero-glow hero-glow-two" aria-hidden="true" />
-            <div className="hero-lifestyle">
-              <div className="hero-lifestyle-main">
-                <img
-                  src="/images/laundry.png"
-                  alt="Laundry service illustration"
-                  className="hero-lifestyle-image hero-lifestyle-image-large"
-                />
-              </div>
-              <div className="hero-lifestyle-stack">
-                <img
-                  src="/images/tiffin.png"
-                  alt="Tiffin service illustration"
-                  className="hero-lifestyle-image"
-                />
-                <img
-                  src="/images/electrician.png"
-                  alt="Electrician service illustration"
-                  className="hero-lifestyle-image"
-                />
-              </div>
+            <div className="hero-mosaic">
+              {heroImages.map(({ category, className, priority }) => {
+                const meta = categoryMeta[category];
+
+                return (
+                  <figure className={className} key={category}>
+                    <img
+                      src={meta.image}
+                      alt={meta.imageAlt}
+                      className="hero-tile-image"
+                      width={categoryImageSize.width}
+                      height={categoryImageSize.height}
+                      decoding="async"
+                      {...(priority
+                        ? { fetchPriority: "high" as const }
+                        : { loading: "lazy" as const })}
+                    />
+                    <figcaption className="hero-tile-label">
+                      <span aria-hidden="true">{meta.icon}</span>
+                      {category}
+                    </figcaption>
+                  </figure>
+                );
+              })}
             </div>
             <div className="hero-floatcard">
               <div>
@@ -115,7 +137,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="hero-mini-grid">
+          <div className="hero-mini-grid hero-enter" style={delay(300)}>
             {categories.map((category) => {
               const meta = categoryMeta[category];
 
@@ -136,7 +158,7 @@ export default function HomePage() {
       </section>
 
       <section className="section section-dark">
-        <div className="section-header">
+        <div className="section-header" data-reveal>
           <div>
             <h2 className="section-title">Popular services near you</h2>
             <p className="section-subtitle">
@@ -149,24 +171,32 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="featured-grid">
-          {featuredVendors.map((vendor) => (
-            <VendorCard key={vendor.slug} vendor={vendor} ctaLabel="Enquire now" />
+          {featuredVendors.map((vendor, index) => (
+            <VendorCard key={vendor.slug} vendor={vendor} index={index} ctaLabel="Enquire now" />
           ))}
         </div>
       </section>
 
-      <section className="section section-dark" aria-label="Browse by category">
-        <div className="section-header">
+      <section className="section section-dark" aria-labelledby="browse-heading">
+        <div className="section-header" data-reveal>
           <div>
-            <h2 className="section-title">Browse by category</h2>
+            <h2 className="section-title" id="browse-heading">
+              Browse by category
+            </h2>
             <p className="section-subtitle">
               A faster way to jump into the right service filter and narrow down local options.
             </p>
           </div>
         </div>
         <div className="category-grid category-grid-home">
-          {categories.map((item) => (
-            <Link className="category-tile category-tile-home" href={`/services?category=${item}`} key={item}>
+          {categories.map((item, index) => (
+            <Link
+              className="category-tile category-tile-dark"
+              href={`/services?category=${item}`}
+              key={item}
+              data-reveal
+              style={delay(index * 60)}
+            >
               <span className="category-icon" aria-hidden="true">
                 {categoryMeta[item].icon}
               </span>
@@ -180,7 +210,7 @@ export default function HomePage() {
       </section>
 
       <section className="section section-dark" id="how-it-works">
-        <div className="section-header section-header-center">
+        <div className="section-header section-header-center" data-reveal>
           <div>
             <h2 className="section-title">How it works</h2>
             <p className="section-subtitle">
@@ -190,7 +220,7 @@ export default function HomePage() {
         </div>
         <div className="steps-grid">
           {howItWorks.map((step, index) => (
-            <div className="step-card" key={step.title}>
+            <div className="step-card" key={step.title} data-reveal style={delay(index * 110)}>
               <span className="step-number">0{index + 1}</span>
               <h3>{step.title}</h3>
               <p>{step.description}</p>
@@ -200,35 +230,56 @@ export default function HomePage() {
       </section>
 
       <section className="section section-dark" id="about-us">
-        <div className="about-cta">
+        <div className="about-cta" data-reveal>
           <div className="about-copy">
-            <span className="eyebrow eyebrow-dark">About us</span>
+            <span className="eyebrow">About us</span>
             <h2>Life gets easier with the right help.</h2>
             <p>
               Bachelor Buddy is built to help bachelors find reliable local help without
               hunting through cluttered listings. It stays focused on trusted vendors,
               transparent pricing, and a quick enquiry flow.
             </p>
+            <Link className="button primary about-button" href="/services#enquiry-form">
+              Enquire Now
+            </Link>
           </div>
-          <div className="about-art" aria-hidden="true">
-            <div className="about-art-card">
-              <img src="/images/cleaning.png" alt="" />
-              <span>Clean spaces</span>
-            </div>
+          <div className="about-art">
+            <figure className="about-art-card">
+              <img
+                src={categoryMeta.Cleaning.image}
+                alt={categoryMeta.Cleaning.imageAlt}
+                width={categoryImageSize.width}
+                height={categoryImageSize.height}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>Clean spaces</figcaption>
+            </figure>
             <div className="about-art-stack">
-              <div className="about-art-card">
-                <img src="/images/tiffin.png" alt="" />
-                <span>Daily meals</span>
-              </div>
-              <div className="about-art-card">
-                <img src="/images/plumber.png" alt="" />
-                <span>Quick fixes</span>
-              </div>
+              <figure className="about-art-card">
+                <img
+                  src={categoryMeta.Tiffin.image}
+                  alt={categoryMeta.Tiffin.imageAlt}
+                  width={categoryImageSize.width}
+                  height={categoryImageSize.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Daily meals</figcaption>
+              </figure>
+              <figure className="about-art-card">
+                <img
+                  src={categoryMeta.Plumber.image}
+                  alt={categoryMeta.Plumber.imageAlt}
+                  width={categoryImageSize.width}
+                  height={categoryImageSize.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Quick fixes</figcaption>
+              </figure>
             </div>
           </div>
-          <Link className="button primary button-yellow about-button" href="/services#enquiry-form">
-            Enquire Now
-          </Link>
         </div>
       </section>
     </>

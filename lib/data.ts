@@ -40,69 +40,58 @@ export const categories: Category[] = [
 
 export const heroStats = [
   { value: "6", label: "service categories" },
-  { value: "Bengaluru", label: "local marketplace focus" },
+  { value: "12+", label: "local vendors listed" },
   { value: "Same day", label: "typical enquiry response" }
 ];
 
-export const categoryMeta: Record<
-  Category,
-  { descriptor: string; icon: string; image: string; focal: string }
-> = {
+export type CategoryMeta = {
+  descriptor: string;
+  icon: string;
+  image: string;
+  imageAlt: string;
+};
+
+export const categoryMeta: Record<Category, CategoryMeta> = {
   Laundry: {
     descriptor: "Pickup, wash, fold",
-    icon: "🧺",
-    image: "/images/service-collage.png",
-    focal: "left top"
+    icon: "\u{1F9FA}",
+    image: "/images/laundry.png",
+    imageAlt: "Folded laundry in a basket beside a washing machine"
   },
   Tiffin: {
     descriptor: "Daily homestyle meals",
-    icon: "🍱",
-    image: "/images/service-collage.png",
-    focal: "center top"
+    icon: "\u{1F371}",
+    image: "/images/tiffin.png",
+    imageAlt: "Stacked steel tiffin carrier with rice, curry, and rotis"
   },
   Househelp: {
     descriptor: "Household support",
-    icon: "🧹",
-    image: "/images/service-collage.png",
-    focal: "left bottom"
+    icon: "\u{1F9F9}",
+    image: "/images/househelp.png",
+    imageAlt: "Tidy living room with a cleaning caddy and folded towels"
   },
   Electrician: {
     descriptor: "Electrical repairs",
-    icon: "💡",
+    icon: "\u{1F4A1}",
     image: "/images/electrician.png",
-    focal: "center center"
+    imageAlt: "Multimeter, switchboard, and electrical hand tools"
   },
   Plumber: {
     descriptor: "Leak and pipe fixes",
-    icon: "🔧",
+    icon: "\u{1F527}",
     image: "/images/plumber.png",
-    focal: "center center"
+    imageAlt: "Pipe wrench, tap fittings, and plumbing hardware"
   },
   Cleaning: {
     descriptor: "Deep cleaning help",
-    icon: "✨",
+    icon: "\u2728",
     image: "/images/cleaning.png",
-    focal: "center center"
+    imageAlt: "Cleaning sprays, brushes, and a bucket of supplies"
   }
 };
 
-export const features = [
-  {
-    title: "Find basics fast",
-    description:
-      "Laundry, tiffin, home cleaning, and repair services in one clean directory."
-  },
-  {
-    title: "Built for new city movers",
-    description:
-      "No login friction, no clutter. Just the essentials a bachelor needs on day one."
-  },
-  {
-    title: "Helps local vendors",
-    description:
-      "Small businesses get visibility from people actively looking for their service."
-  }
-];
+/** Every category image is exported at this size, so cards can reserve space. */
+export const categoryImageSize = { width: 496, height: 372 } as const;
 
 export const howItWorks = [
   {
@@ -117,36 +106,6 @@ export const howItWorks = [
     title: "Send one enquiry",
     description: "Submit the form once and let the vendor follow up."
   }
-];
-
-export const serviceHighlights = [
-  {
-    title: "Laundry pickup",
-    blurb: "Same-day wash and fold for busy weeknights.",
-    category: "Laundry"
-  },
-  {
-    title: "Homestyle tiffin",
-    blurb: "Simple daily meals with flexible subscriptions.",
-    category: "Tiffin"
-  },
-  {
-    title: "Move-in cleaning",
-    blurb: "Deep cleaning for fresh starts and room handovers.",
-    category: "Cleaning"
-  },
-  {
-    title: "Quick repairs",
-    blurb: "Electrician and plumber help for small urgent fixes.",
-    category: "Electrician"
-  }
-] as const;
-
-export const popularSearches = [
-  "Laundry in Koramangala",
-  "Tiffin near Indiranagar",
-  "Electrician in HSR Layout",
-  "Deep cleaning in Bellandur"
 ];
 
 export const seedVendors: Omit<Vendor, "id" | "slug">[] = [

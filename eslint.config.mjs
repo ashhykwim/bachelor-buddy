@@ -24,7 +24,12 @@ export default [
         process: "readonly",
         Request: "readonly",
         URLSearchParams: "readonly",
-        HTMLFormElement: "readonly"
+        HTMLFormElement: "readonly",
+        window: "readonly",
+        document: "readonly",
+        Element: "readonly",
+        IntersectionObserver: "readonly",
+        MutationObserver: "readonly"
       }
     },
     plugins: {

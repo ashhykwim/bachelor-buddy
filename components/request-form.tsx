@@ -74,7 +74,7 @@ export function RequestForm({ defaultCategory }: RequestFormProps) {
   }
 
   return (
-    <form className="stack" id="enquiry-form" onSubmit={handleSubmit} noValidate>
+    <form className="stack request-form" onSubmit={handleSubmit} noValidate>
       <div className="request-grid">
         <label className="field-group">
           <span className="field-label">Your name</span>
@@ -140,10 +140,11 @@ export function RequestForm({ defaultCategory }: RequestFormProps) {
         <button className="button primary" type="submit" disabled={status === "loading"}>
           {status === "loading" ? "Sending enquiry..." : "Send enquiry"}
         </button>
-        {status === "success" ? <span className="status success">{message}</span> : null}
-        {status === "error" ? <span className="status error">{message}</span> : null}
+        <p className="form-status" role="status" aria-live="polite">
+          {status === "success" ? <span className="status success">{message}</span> : null}
+          {status === "error" ? <span className="status error">{message}</span> : null}
+        </p>
       </div>
-      {status === "idle" && message ? <div className="notice">{message}</div> : null}
       <p className="mini">
         We only store the enquiry details needed to contact you back.
       </p>
